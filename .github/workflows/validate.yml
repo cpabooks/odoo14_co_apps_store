@@ -1,0 +1,15 @@
+name: Validate addon release
+on:
+  push:
+  pull_request:
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+      - run: python scripts/validate_release.py
+      - run: node --check cpabooks_chart_of_accounts/static/src/js/account_form_pager.js
+      - run: git diff --check
