@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import re
+import uuid
 from itertools import groupby as itertools_groupby
 
 from lxml import etree
@@ -268,11 +269,18 @@ class AccountAccount(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         # Keep user-entered codes; do not auto-rewrite to IFRS series on manual create.
+        vals_list = [dict(vals) for vals in vals_list]
+        if not self.env.context.get('cpabooks_skip_ifrs_auto_setup'):
+            for vals in vals_list:
+                if not (vals.get('code') or '').strip():
+                    # account.code is NOT NULL. Use a recognized temporary code
+                    # until the persisted account can be allocated its IFRS code.
+                    vals['code'] = '__ifrs_code_%s' % uuid.uuid4().hex
         accounts = super().create(vals_list)
-        accounts._cpabooks_schedule_ifrs_name_prompt()
         if not self.env.context.get('cpabooks_skip_ifrs_auto_setup'):
             # Only fill MISSING codes / sync groups — never force IFRS over a provided code.
             self.env['coa.ifrs.coding'].setup_ifrs_for_accounts(accounts, force_code=False)
+        accounts._cpabooks_schedule_ifrs_name_prompt()
         return accounts
 
     def _cpabooks_next_duplicate_code(self):

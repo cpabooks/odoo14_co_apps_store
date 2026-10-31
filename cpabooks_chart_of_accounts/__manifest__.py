@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Chart of Accounts Management',
+    'name': 'Chart of Accounts Manager',
     'summary': 'IFRS chart of accounts, ledger coding, COA reset, merge and opening balance',
     'description': """
 CPA Books Chart of Accounts
@@ -10,7 +10,7 @@ type / group / ledger coding, automatic ledger codes, COA reset and
 regenerate wizards, merge and delete of unused ledgers, opening balance
 entry, correspondent Dr/Cr ledgers and product COA codes.
     """,
-    'author': 'CPA Books (WhastApp +971562568128)',
+    'author': 'CPA Books',
     'website': 'https://www.cpabooks.co',
     'support': 'info@cpabooks.org',
     'category': 'Accounting/Accounting',
@@ -18,7 +18,6 @@ entry, correspondent Dr/Cr ledgers and product COA codes.
     'license': 'LGPL-3',
     'price': 0.00,
     'currency': 'USD',
-    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'images': [
         'static/description/banner_store.jpg',
     ],
