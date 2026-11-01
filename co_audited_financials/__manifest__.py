@@ -15,6 +15,7 @@ Equity, Cash Flow, PPE schedule, notes and UAE Corporate Tax.
     'license': 'LGPL-3',
     'price': 200.00,
     'currency': 'USD',
+    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'support': 'info@cpabooks.org',
     'images': [
         'static/description/banner_screenshot.jpg',

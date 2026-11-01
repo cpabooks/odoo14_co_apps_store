@@ -14,6 +14,7 @@
     'license': 'LGPL-3',
     'price': 149.50,
     'currency': 'USD',
+    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'images': ['static/description/banner_store.jpg'],
     'depends': [
         'co_document_sequences',

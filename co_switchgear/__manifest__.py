@@ -15,6 +15,7 @@ purchase requisition, quality check, stock, invoice, and payment.
     'support': 'info@cpabooks.org',
     'price': 150.00,
     'currency': 'USD',
+    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'depends': [
         'web',
         'crm',
