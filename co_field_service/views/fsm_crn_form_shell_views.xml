@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Drop invalid subtask-hide view from failed upgrades (used @string xpath). -->
+        <function model="ir.ui.view" name="cpabooks_unlink_views_by_xmlid">
+            <value eval="['view_fsm_crn_hide_subtask_page']"/>
+        </function>
+
+        <!-- CRN form caption (Complaint Registration Form — not a project task). -->
+        <!-- CRN form: hide Subtask page (bi_subtask adds it on project.view_task_form2). -->
+        <!-- CRN form: hide Activity Control page (schedule activity module). -->
+        <record id="view_fsm_crn_hide_activity_control_page" model="ir.ui.view">
+            <field name="name">fsm.crn.hide.activity.control.page</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="all_in_one_schedule_activity_management.activity_task_form_inherit_dashboard"/>
+            <field name="priority">320</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='activity_category_id']" position="after">
+                    <field name="fsm_crn_form" invisible="1"/>
+                </xpath>
+                <xpath expr="//page[.//field[@name='activity_forecast_hours']]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('fsm_crn_form', '=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

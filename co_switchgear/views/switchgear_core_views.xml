@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_switchgear_job_estimate" model="ir.sequence">
+        <field name="name">Switchgear Job Estimate</field>
+        <field name="code">switchgear.job.estimate</field>
+        <field name="prefix">EST</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_switchgear_quality_check" model="ir.sequence">
+        <field name="name">Switchgear Quality Check</field>
+        <field name="code">switchgear.quality.check</field>
+        <field name="prefix">QC</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_switchgear_quality_alert" model="ir.sequence">
+        <field name="name">Switchgear Quality Alert</field>
+        <field name="code">switchgear.quality.alert</field>
+        <field name="prefix">QA</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_switchgear_purchase_requisition" model="ir.sequence">
+        <field name="name">Switchgear Purchase Requisition</field>
+        <field name="code">switchgear.purchase.requisition</field>
+        <field name="prefix">PR</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="test_type_passfail" model="quality.point.test_type">
+        <field name="name">Pass - Fail</field>
+        <field name="technical_name">passfail</field>
+    </record>
+    <record id="test_type_measure" model="quality.point.test_type">
+        <field name="name">Measure</field>
+        <field name="technical_name">measure</field>
+    </record>
+    <record id="quality_alert_team_main" model="quality.alert.team">
+        <field name="name">Quality Team</field>
+    </record>
+
+    <record id="job_estimate_tree_view" model="ir.ui.view">
+        <field name="name">job.estimate.tree</field>
+        <field name="model">job.estimate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="total_job_estimate"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="job_estimate_form_view" model="ir.ui.view">
+        <field name="name">job.estimate.form</field>
+        <field name="model">job.estimate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_job_confirm" type="object" string="Confirm" states="draft" class="btn-primary"/>
+                    <button name="action_approve" type="object" string="Approve" states="confirmed" class="btn-primary"/>
+                    <button name="action_create_quotation" type="object" string="Create Quotation" states="approved,done" class="btn-primary"/>
+                    <button name="action_create_bom" type="object" string="Create BOM" states="approved,done" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="customer_ref"/>
+                            <field name="crm_reference"/>
+                            <field name="opportunity_id"/>
+                            <field name="project_id" string="Job Order"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="sales_person_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="profit_percent"/>
+                            <field name="total_job_estimate"/>
+                            <field name="bom_id"/>
+                            <field name="bom_reference"/>
+                            <field name="bom_product_id"/>
+                            <field name="sale_quotation_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Materials">
+                            <field name="material_estimation_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="price_unit"/>
+                                    <field name="discount"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Labour">
+                            <field name="labour_estimation_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="hours"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Overhead">
+                            <field name="overhead_estimation_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_job_estimate" model="ir.actions.act_window">
+        <field name="name">Estimation</field>
+        <field name="res_model">job.estimate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="quality_check_view_tree" model="ir.ui.view">
+        <field name="name">quality.check.tree</field>
+        <field name="model">quality.check</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="production_id"/>
+                <field name="quality_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="quality_check_view_form" model="ir.ui.view">
+        <field name="name">quality.check.form</field>
+        <field name="model">quality.check</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="do_pass" type="object" string="Pass" class="btn-primary" states="none"/>
+                    <button name="do_fail" type="object" string="Fail" states="none"/>
+                    <button name="do_alert" type="object" string="Create Alert"/>
+                    <field name="quality_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="product_id"/>
+                        <field name="production_id"/>
+                        <field name="picking_id"/>
+                        <field name="team_id"/>
+                        <field name="test_type_id"/>
+                        <field name="project_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="alert_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="quality_check_action_main" model="ir.actions.act_window">
+        <field name="name">Quality Checks</field>
+        <field name="res_model">quality.check</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="quality_check_action_mo" model="ir.actions.act_window">
+        <field name="name">Quality Checks</field>
+        <field name="res_model">quality.check</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="quality_alert_view_tree" model="ir.ui.view">
+        <field name="name">quality.alert.tree</field>
+        <field name="model">quality.alert</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="title"/>
+                <field name="product_id"/>
+                <field name="team_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="quality_alert_view_form" model="ir.ui.view">
+        <field name="name">quality.alert.form</field>
+        <field name="model">quality.alert</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="title"/>
+                        <field name="product_id"/>
+                        <field name="team_id"/>
+                        <field name="project_id"/>
+                        <field name="stage_id"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="quality_alert_action" model="ir.actions.act_window">
+        <field name="name">Quality Alerts</field>
+        <field name="res_model">quality.alert</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="quality_alert_team_action" model="ir.actions.act_window">
+        <field name="name">Quality Teams</field>
+        <field name="res_model">quality.alert.team</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="quality_point_action" model="ir.actions.act_window">
+        <field name="name">Control Points</field>
+        <field name="res_model">quality.point</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="material_requisition_form" model="ir.ui.view">
+        <field name="name">material.purchase.requisition.form</field>
+        <field name="model">material.purchase.requisition</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                        <field name="requisition_date"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="reason_for_requisition"/>
+                    </group>
+                    <field name="requisition_line_ids">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_material_purchase_requisition" model="ir.actions.act_window">
+        <field name="name">Purchase Requisition</field>
+        <field name="res_model">material.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

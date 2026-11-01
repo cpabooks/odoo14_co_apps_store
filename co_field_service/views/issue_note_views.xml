@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- CRN issue notes: keep Operations + Detailed Operations even when picking type has show_operations unchecked. -->
+        </data>
+</odoo>

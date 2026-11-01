@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="recipe_demo_wizard_form" model="ir.ui.view">
+        <field name="name">recipe.demo.wizard.form</field>
+        <field name="model">cpabooks.recipe.demo.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Recipe Book Configuration">
+                <group>
+                    <div colspan="2">
+                        Load Samurai sushi and buffet samples: menu-card prices, budget costing, and kitchen quantities.
+                        Ingredients are linked to products already purchased when the name matches.
+                        Sample sold quantities come from the sales sheet. Sale orders are not created.
+                        Clear removes sample recipes only. Actual recipes and real inventory products stay.
+                    </div>
+                </group>
+                <footer>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                    <button name="action_load" type="object" string="Load Demo Data" class="btn-primary"/>
+                    <button name="action_clear" type="object" string="Clear Demo Data"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_recipe_demo_wizard" model="ir.actions.act_window">
+        <field name="name">Configuration</field>
+        <field name="res_model">cpabooks.recipe.demo.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <record id="action_menu_load_demo" model="ir.actions.server">
+        <field name="name">Load Demo Data</field>
+        <field name="model_id" ref="model_cpabooks_recipe"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_menu_load_demo()</field>
+    </record>
+    <record id="action_menu_clear_demo" model="ir.actions.server">
+        <field name="name">Clear Demo Data</field>
+        <field name="model_id" ref="model_cpabooks_recipe"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_menu_clear_demo()</field>
+    </record>
+    <record id="recipe_clone_wizard_form" model="ir.ui.view">
+        <field name="name">recipe.clone.wizard.form</field>
+        <field name="model">cpabooks.recipe.clone.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Clone from Demo">
+                <group>
+                    <field name="demo_recipe_id"/>
+                </group>
+                <footer>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                    <button name="action_clone" type="object" string="Clone to Actual" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_recipe_clone_wizard" model="ir.actions.act_window">
+        <field name="name">Clone from Demo</field>
+        <field name="res_model">cpabooks.recipe.clone.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

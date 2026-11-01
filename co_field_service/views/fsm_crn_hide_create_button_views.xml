@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Hide Create CRN on FSM / new CRN registration (use Save instead). -->
+        <record id="view_fsm_project_task_form_hide_create_crn_button" model="ir.ui.view">
+            <field name="name">fsm.project.task.form.hide.create.crn.button</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="co_field_service.view_project_task_form_create_crn_button"/>
+            <field name="priority">60</field>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="fsm_crn_form" invisible="1"/>
+                    <field name="check_fsm" invisible="1"/>
+                </xpath>
+                <xpath expr="//header/button[@name='action_create_crn_from_task']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('fsm_crn_form', '=', True), ('is_fsm', '=', True), ('check_fsm', '=', True), ('task_seq', '=like', 'CRN%')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="RecipeKeyResults">
+        <div class="o_key_results">
+            <h2>Key Results</h2>
+            <div class="kr_period">
+                <label>Period</label>
+                <input type="date" class="kr_date_from"/>
+                <span>to</span>
+                <input type="date" class="kr_date_to"/>
+                <button type="button" class="btn btn-primary kr_apply">Apply</button>
+                <button type="button" class="btn btn-secondary kr_last_month">Last month</button>
+                <button type="button" class="btn btn-secondary kr_before_last">Before last month</button>
+                <button type="button" class="btn btn-secondary kr_export">Export</button>
+            </div>
+            <table class="kr_table">
+                <colgroup>
+                    <col class="kr_col_name"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_num"/>
+                    <col class="kr_col_gap"/>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th title="Company">Company</th>
+                        <th class="kr_sale" title="Total Sales">Total Sales</th>
+                        <th class="kr_cost" title="COM (Actual)">COM (Actual)</th>
+                        <th class="kr_cost" title="COM Potential">COM Potential</th>
+                        <th class="kr_cost" title="COM (Daily Consumptions)">COM (Daily Consumptions)</th>
+                        <th class="kr_cost" title="COM Theoretical">COM Theoretical</th>
+                        <th class="kr_cost" title="COM %">COM %</th>
+                        <th class="kr_sale" title="GM">GM</th>
+                        <th title="Missing">Missing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="widget.data.companies" t-as="company" class="kr_company" t-att-data-id="company.id">
+                        <td class="kr_link" t-att-title="company.name" t-esc="company.name"/>
+                        <td t-attf-class="kr_sale #{company.sales_missing and 'kr_miss' or ''}">
+                            <div class="kr_amt" t-esc="company.sales"/>
+                            <div class="kr_subqty" t-if="company.sold_qty" t-esc="company.sold_qty"/>
+                        </td>
+                        <td t-attf-class="kr_cost kr_drill_cell #{company.actual_missing and 'kr_miss' or ''}" data-kind="actual" t-att-data-company-id="company.id" t-att-data-amount="company.actual" t-att-data-qty="company.actual_qty">
+                            <div class="kr_amt" t-esc="company.actual"/>
+                            <div class="kr_subqty" t-if="company.actual_qty" t-esc="company.actual_qty"/>
+                        </td>
+                        <td t-attf-class="kr_cost #{company.potential_missing and 'kr_miss' or ''}" t-esc="company.potential"/>
+                        <td t-attf-class="kr_cost kr_drill_cell #{company.daily_missing and 'kr_miss' or ''}" data-kind="daily" t-att-data-company-id="company.id" t-att-data-amount="company.daily" t-att-data-qty="company.daily_qty">
+                            <div class="kr_amt" t-esc="company.daily"/>
+                            <div class="kr_subqty" t-if="company.daily_qty" t-esc="company.daily_qty"/>
+                        </td>
+                        <td t-attf-class="kr_cost kr_drill_cell #{company.theo_missing and 'kr_miss' or ''}" data-kind="daily" t-att-data-company-id="company.id" t-att-data-amount="company.theo" t-att-data-qty="company.theo_qty">
+                            <div class="kr_amt" t-esc="company.theo"/>
+                            <div class="kr_subqty" t-if="company.theo_qty" t-esc="company.theo_qty"/>
+                        </td>
+                        <td class="kr_cost" t-esc="company.com_pct"/>
+                        <td class="kr_sale" t-esc="company.gm"/>
+                        <td class="kr_gap" t-att-title="company.gap" t-esc="company.gap"/>
+                    </tr>
+                    <tr class="kr_total">
+                        <td>TOTAL</td>
+                        <td class="kr_sale">
+                            <div class="kr_amt" t-esc="widget.data.total.sales"/>
+                            <div class="kr_subqty" t-if="widget.data.total.sold_qty" t-esc="widget.data.total.sold_qty"/>
+                        </td>
+                        <td class="kr_cost">
+                            <div class="kr_amt" t-esc="widget.data.total.actual"/>
+                            <div class="kr_subqty" t-if="widget.data.total.actual_qty" t-esc="widget.data.total.actual_qty"/>
+                        </td>
+                        <td class="kr_cost" t-esc="widget.data.total.potential"/>
+                        <td class="kr_cost">
+                            <div class="kr_amt" t-esc="widget.data.total.daily"/>
+                            <div class="kr_subqty" t-if="widget.data.total.daily_qty" t-esc="widget.data.total.daily_qty"/>
+                        </td>
+                        <td class="kr_cost">
+                            <div class="kr_amt" t-esc="widget.data.total.theo"/>
+                            <div class="kr_subqty" t-if="widget.data.total.theo_qty" t-esc="widget.data.total.theo_qty"/>
+                        </td>
+                        <td class="kr_cost" t-esc="widget.data.total.com_pct"/>
+                        <td class="kr_sale" t-esc="widget.data.total.gm"/>
+                        <td class="kr_gap" t-att-title="widget.data.total.gap" t-esc="widget.data.total.gap"/>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="kr_detail"/>
+        </div>
+    </t>
+</templates>
