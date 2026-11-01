@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_switchgear_activities_root"
+        name="Activities"
+        parent="menu_flowchart_kanban_root"
+        sequence="4"/>
+
+    <menuitem
+        id="menu_switchgear_activity_all"
+        name="Activities"
+        parent="menu_switchgear_activities_root"
+        action="mail.mail_activity_action"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_switchgear_activity_my_tasks"
+        name="My Tasks"
+        parent="menu_switchgear_activities_root"
+        action="project.action_view_all_task"
+        sequence="20"/>
+</odoo>

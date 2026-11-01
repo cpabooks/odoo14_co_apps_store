@@ -1,69 +1,82 @@
-# Odoo Apps Store submission
+# Odoo Apps submission — Odoo 14
 
-## Repository
+Repository: https://github.com/cpabooks/odoo14_co_apps_store.git
+Register branch `14.0` as shown in the vendor dashboard.
 
-- Repository: `https://github.com/cpabooks/odoo14_co_apps_store.git`
-- Current release branch: `main`
-- Odoo series: `14.0`
-- Module: `cpabooks_chart_of_accounts`
-- Price: free, as configured in the original manifest.
-- License: LGPL-3.
+## Names and contents
 
-Commit and push the prepared changes from this directory:
+All eight modules use new technical names listed in `module_names.json`.
+Display names, XML namespaces, module references, JavaScript identifiers,
+asset paths and the internal fire-safety/sequence dependency were updated.
+The old `cpabooks_chart_of_accounts` directory must not be re-added to this
+repository: it causes the ownership conflict shown in the dashboard.
+New names still require acceptance by the remote Apps scanner; availability
+cannot be guaranteed by local validation.
 
-```sh
-git add .
-git commit -m "Prepare chart of accounts module for Odoo Apps"
-git push origin main
-```
+Original author attribution and LGPL-3 licensing are retained. Existing
+prices are configured in USD in each addon manifest. Store pages use local images; unverified ranking/partner
+badges and the footer advertising other Odoo versions have been removed.
+Existing image previews have not been recreated or independently verified.
 
-In your Odoo Apps vendor account, register this repository and select `main` as the branch if the submission form supports it, then scan/update the repository. The manifest version identifies Odoo 14. If your account requires a version-named branch, push the reviewed commit to `14.0` and register that branch:
+## Required dependency before publishing Financial Audit Reports
 
-```sh
-git push origin HEAD:14.0
-```
+`co_audited_financials` requires `project_dashboard_odoo`. This addon is not
+included in the supplied source repository. Its report actions and templates
+are used by Financial Audit Reports, so removing the dependency would break
+functionality. Ensure the correct Odoo 14 dependency is available on Odoo Apps
+and accessible to buyers before publishing this addon. This module is not
+certified ready until dependency installation and its workflows are tested.
 
-A Git push alone does not register a new repository with Odoo Apps. Vendor access, repository access and the store's scan/review remain external steps. For an already registered repository, request an update/scan after pushing when necessary.
+`co_cafm` and `co_fire_safety` depend on `co_document_sequences` in this repository.
+`co_cafm` and `co_recipe_costing` require Python package `openpyxl`;
+`co_audited_financials` requires `openpyxl` and `xlsxwriter`.
+Additional runtime integrations must be checked in the target Odoo environment.
 
-## Release contents
+## Validation
 
-The manifest, English description, local cover, icon, interface illustrations, support email and licenses are included. No activation key or third-party addon is required for core functionality. Images are illustrative previews, not evidence of live installation testing.
+Run `scripts/validate_release.py` with the configured Odoo Python 3.8 environment.
+It validates all eight manifests, referenced files, Python syntax, XML,
+description images and absence of old technical namespaces.
+Check `RELEASE_VALIDATION.md` for the actual installation results.
 
-## Validate before each release
+Use a disposable database for install and upgrade testing. Do not install the
+old and renamed versions together: they retain the same business model names.
+Renaming creates new addons; this is not an in-place migration of existing
+installed databases or their external identifiers.
 
-Run `python3 scripts/validate_release.py` using your Odoo Python environment. This validates packaging and source files; it does not replace installation testing.
+## Publish
 
-On a disposable PostgreSQL database and a working Odoo 14 installation:
+Review the diff, commit the prepared files and push the reviewed commit to
+`14.0`. In the vendor dashboard scan:
+`ssh://git@github.com/cpabooks/odoo14_co_apps_store.git#14.0`
+For a private repository grant the Odoo Apps scanner repository read access.
+No Git push, repository registration or remote scan was performed here.
 
-```sh
-/path/to/odoo-python /path/to/odoo-bin \
-  -c /path/to/test-odoo.conf \
-  --addons-path=/path/to/odoo/addons,/path/to/standard/addons,/path/to/this/repository \
-  -d coa_release_test -i cpabooks_chart_of_accounts \
-  --without-demo=all --stop-after-init --no-http
-```
+Official submission and dependency rules:
+https://apps.odoo.com/apps/upload
+https://apps.odoo.com/apps/faq
+https://apps.odoo.com/apps/vendor-guidelines
 
-Repeat with `-u cpabooks_chart_of_accounts` to check an upgrade. Use a test configuration and a disposable database; installation initializes account defaults and groups for all companies. Exercise recoding previews, account creation, opening balance entries, merge permissions and company isolation before production use.
+## Installation fixes found during preparation
 
-Guidelines: https://apps.odoo.com/apps/vendor-guidelines
-Submission: https://apps.odoo.com/apps/upload
+- CAFM now declares its required dependency on `co_document_sequences`.
+- Document numbering now declares `purchase`, whose views it extends.
+- CAFM and Fire Safety source model XML IDs and SQL table references used
+  obsolete `cafm_cpa_*` / `faff_cpa_*` identifiers. They now match the actual
+  `cpabooks.cafm.*` / `cpabooks.faff.*` model names.
+- Seven ungrouped CAFM ACLs are restricted to internal users (`base.group_user`).
+- Recipe Costing and Financial Audit declare their spreadsheet Python dependencies.
+- Development backup files are excluded from the distributable modules.
 
-## Verification performed for this preparation
+## Field Service publication blocker
 
-- Odoo 14 / Python 3.8, standard Community addons only, disposable PostgreSQL 16 cluster.
-- Fresh installation and module upgrade completed successfully.
-- Fresh setup produced 141 accounts and 26 groups for the initial company.
-- ORM smoke check passed: account creation without a code, duplicate code regeneration, preservation of manually supplied codes, batch code generation, setup action resolution and denial of public write access to setup models.
-- Packaging validator, JavaScript syntax and Git whitespace checks passed.
-- Non-blocking duplicate field-label warnings remain in the existing models.
-- Enterprise-specific integrations and all interactive reset/merge/opening-balance workflows have not been exhaustively tested.
-
-The reproducible ORM smoke check is in `scripts/smoke_odoo.py`. From the Odoo source directory, run it with the same test configuration and addons path used for installation:
-
-```sh
-/path/to/odoo-python odoo-bin shell -c /path/to/test-odoo.conf \
-  -d coa_release_test --no-http \
-  < /path/to/this/repository/scripts/smoke_odoo.py
-```
-
-It rolls back its changes and must only be run on a disposable database.
+`co_field_service` also requires `industry_fsm_report` (Enterprise worksheet
+reports), `cpabooks_project_issue_note` (material request lines and issue picking
+fields/views), and `all_in_one_schedule_activity_management` (inherited task
+views). These existing code dependencies are now declared in the manifest.
+They are not included in the supplied Apps Store source repository. Confirm
+all dependency versions and their store availability before publishing.
+The Enterprise report dependency means Community compatibility is not claimed.
+A full installation of this addon remains unverified until those dependencies
+are provided. The existing customer worksheet template is now loaded by the
+manifest and also requires the Enterprise report dependency.

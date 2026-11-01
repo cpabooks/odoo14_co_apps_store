@@ -1,0 +1,42 @@
+[
+  {
+    "original": "audited_financial_cpa",
+    "technical": "co_audited_financials",
+    "name": "Financial Audit Reports"
+  },
+  {
+    "original": "cafm_cpa",
+    "technical": "co_cafm",
+    "name": "Facilities and AMC"
+  },
+  {
+    "original": "cpabooks_chart_of_accounts",
+    "technical": "co_chart_of_accounts",
+    "name": "IFRS Ledger Management"
+  },
+  {
+    "original": "faff_cpa",
+    "technical": "co_fire_safety",
+    "name": "Fire Safety Operations"
+  },
+  {
+    "original": "field_service_cpa",
+    "technical": "co_field_service",
+    "name": "Onsite Service Management"
+  },
+  {
+    "original": "recipe_book_cpa",
+    "technical": "co_recipe_costing",
+    "name": "Restaurant Recipe Costing"
+  },
+  {
+    "original": "sequences_cpa",
+    "technical": "co_document_sequences",
+    "name": "Document Number Control"
+  },
+  {
+    "original": "switchgear_cpa",
+    "technical": "co_switchgear",
+    "name": "Switchgear Production"
+  }
+]

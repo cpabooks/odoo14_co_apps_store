@@ -17,7 +17,7 @@ try:
     batch = Account.create([dict(values), dict(values)])
     assert len(set(batch.mapped('code'))) == 2, 'Batch codes are duplicated'
     assert all(code and not code.startswith('__') for code in batch.mapped('code'))
-    assert env.ref('cpabooks_chart_of_accounts.action_cpa_coa_setup_file')
+    assert env.ref('co_chart_of_accounts.action_cpa_coa_setup_file')
     public = env.ref('base.public_user')
     for model in ('visa.product', 'product.analytic.acc.conf'):
         assert not env[model].with_user(public).check_access_rights('write', raise_exception=False)

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="RecipeNavToggle">
+        <li class="o_recipe_nav_toggle">
+            <button type="button" class="o_nav_side" title="Sidebar">Sidebar</button>
+            <button type="button" class="o_nav_top" title="Top bar">Top bar</button>
+        </li>
+    </t>
+    <t t-name="RecipeStatusDashboard">
+        <div class="o_recipe_status">
+            <div class="o_recipe_status_head">
+                <div>
+                    <h2>Restaurant status</h2>
+                    <div class="o_recipe_period" t-esc="widget.data.period"/>
+                    <div class="o_recipe_period_note" t-esc="widget.data.period_note"/>
+                </div>
+                <span t-esc="widget.data.company"/>
+            </div>
+            <div class="o_recipe_status_grid">
+                <section class="o_recipe_card o_tone_mgmt">
+                    <div class="o_recipe_card_head">
+                        <h3>Management</h3>
+                        <button type="button" class="o_recipe_drill" data-drill="recipes">Open all</button>
+                    </div>
+                    <div class="o_recipe_kpis">
+                        <div class="o_recipe_drill o_kpi_blue" data-drill="recipes"><b t-esc="widget.data.management.recipes"/> <span>Menu items</span></div>
+                        <div class="o_recipe_drill o_kpi_amber" data-drill="budget"><b t-esc="widget.data.management.avg_budget_pct"/>% <span>Budget food cost</span></div>
+                        <div class="o_recipe_drill o_kpi_rose" data-drill="actual"><b t-esc="widget.data.management.avg_actual_pct"/>% <span>Actual food cost</span></div>
+                        <div class="o_recipe_drill o_kpi_teal" data-drill="sales"><b t-esc="widget.data.management.sample_sales"/> <span>Sample sales AED</span></div>
+                        <div class="o_recipe_drill o_kpi_purple" data-drill="food"><b t-esc="widget.data.management.actual_food"/> <span>Actual food AED</span></div>
+                        <div class="o_recipe_drill o_kpi_green" data-drill="margin"><b t-esc="widget.data.management.margin"/> <span>Sample margin AED</span></div>
+                    </div>
+                    <h4>Food cost by category</h4>
+                    <div class="o_recipe_bars">
+                        <div t-foreach="widget.data.management.bars" t-as="bar" class="o_recipe_bar o_recipe_drill" data-drill="category" t-att-data-key="bar.key">
+                            <span t-esc="bar.name"/>
+                            <div><i t-attf-style="width: #{bar.width}%"/></div>
+                            <em t-esc="bar.cost"/>
+                        </div>
+                    </div>
+                    <h4>Highest actual food cost</h4>
+                    <table>
+                        <thead>
+                            <tr><th>Item</th><th>Price</th><th>Budget</th><th>Actual</th><th>Budget %</th><th>Actual %</th><th>Sold</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="widget.data.management.rows" t-as="row" class="o_recipe_drill" data-drill="recipe" t-att-data-id="row.id">
+                                <td t-esc="row.name"/>
+                                <td t-esc="row.price"/>
+                                <td t-esc="row.budget"/>
+                                <td t-esc="row.actual"/>
+                                <td t-esc="row.budget_pct"/>
+                                <td t-esc="row.actual_pct"/>
+                                <td t-esc="row.sold"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section class="o_recipe_card o_tone_chef">
+                    <div class="o_recipe_card_head">
+                        <h3>Chef</h3>
+                        <button type="button" class="o_recipe_drill" data-drill="closing">Open all</button>
+                    </div>
+                    <div class="o_recipe_kpis">
+                        <div class="o_recipe_drill o_kpi_blue" data-drill="closing"><b t-esc="widget.data.chef.lines"/> <span>Closing lines</span></div>
+                        <div class="o_recipe_drill o_kpi_green" data-drill="ok"><b t-esc="widget.data.chef.ok"/> <span>OK</span></div>
+                        <div class="o_recipe_drill o_kpi_amber" data-drill="check"><b t-esc="widget.data.chef.check"/> <span>Check</span></div>
+                        <div class="o_recipe_drill o_kpi_rose" data-drill="variance"><b t-esc="widget.data.chef.variance"/> <span>Variance</span></div>
+                    </div>
+                    <h4>Closing variance</h4>
+                    <table>
+                        <thead>
+                            <tr><th>Ingredient</th><th>Expected</th><th>Actual use</th><th>Variance</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="widget.data.chef.rows" t-as="row" class="o_recipe_drill" data-drill="closing_line" t-att-data-id="row.id">
+                                <td t-esc="row.product"/>
+                                <td t-esc="row.expected"/>
+                                <td t-esc="row.actual"/>
+                                <td t-esc="row.variance"/>
+                                <td><span t-attf-class="o_recipe_pill o_pill_#{row.state}" t-esc="row.state"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section class="o_recipe_card o_tone_store">
+                    <div class="o_recipe_card_head">
+                        <h3>Store</h3>
+                        <button type="button" class="o_recipe_drill" data-drill="purchased">Open all</button>
+                    </div>
+                    <div class="o_recipe_kpis">
+                        <div class="o_recipe_drill o_kpi_teal" data-drill="purchased"><b t-esc="widget.data.store.purchased"/> <span>Purchased items</span></div>
+                        <div class="o_recipe_drill o_kpi_rose" data-drill="unmatched"><b t-esc="widget.data.store.unmatched"/> <span>Not on a recipe</span></div>
+                        <div class="o_recipe_drill o_kpi_purple" data-drill="purchase_qty"><b t-esc="widget.data.store.purchase_qty"/> <span>Purchase qty</span></div>
+                        <div class="o_recipe_drill o_kpi_amber" data-drill="preps"><b t-esc="widget.data.management.preps"/> <span>Prep items</span></div>
+                    </div>
+                    <h4>Purchases against expected use</h4>
+                    <table>
+                        <thead>
+                            <tr><th>Ingredient</th><th>Purchase</th><th>Expected use</th><th>Chef close</th><th>On recipe</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="widget.data.store.rows" t-as="row" class="o_recipe_drill" data-drill="closing_line" t-att-data-id="row.id">
+                                <td t-esc="row.product"/>
+                                <td t-esc="row.purchase"/>
+                                <td t-esc="row.expected"/>
+                                <td t-esc="row.closing"/>
+                                <td><span t-attf-class="o_recipe_pill #{row.matched and 'o_pill_ok' or 'o_pill_variance'}"><t t-if="row.matched">Yes</t><t t-else="">No</t></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <function model="ir.ui.view" name="cpabooks_unlink_views_by_xmlid">
+            <value eval="['view_fsm_project_task_form_field_stage_colors']"/>
+        </function>
+
+        </data>
+</odoo>

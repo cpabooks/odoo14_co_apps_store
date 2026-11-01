@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Legacy groups kept for existing assignments; implied_ids set in hooks when cpabooks_approval is present. -->
+        <record id="group_fsm_task_approver" model="res.groups">
+            <field name="name">FSM Task Approver</field>
+            <field name="category_id" ref="base.module_category_project_management"/>
+        </record>
+
+        <record id="group_fsm_approval_admin" model="res.groups">
+            <field name="name">FSM Approval Admin</field>
+            <field name="category_id" ref="base.module_category_project_management"/>
+        </record>
+
+    </data>
+</odoo>

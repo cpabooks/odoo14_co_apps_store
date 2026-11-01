@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="co_document_sequences.list">
+      <field name="name">co_document_sequences list</field>
+      <field name="model">co_document_sequences.co_document_sequences</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="co_document_sequences.action_window">
+      <field name="name">co_document_sequences window</field>
+      <field name="res_model">co_document_sequences.co_document_sequences</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="co_document_sequences.action_server">
+      <field name="name">co_document_sequences server</field>
+      <field name="model_id" ref="model_cpabooks_co_document_sequencesbooks_sequences"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="co_document_sequences" id="co_document_sequences.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="co_document_sequences.menu_1" parent="co_document_sequences.menu_root"/>
+    <menuitem name="Menu 2" id="co_document_sequences.menu_2" parent="co_document_sequences.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="co_document_sequences.menu_1_list" parent="co_document_sequences.menu_1"
+              action="co_document_sequences.action_window"/>
+    <menuitem name="Server to list" id="co_document_sequences" parent="co_document_sequences.menu_2"
+              action="co_document_sequences.action_server"/>
+-->
+  </data>
+</odoo>

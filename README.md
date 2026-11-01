@@ -1,9 +1,12 @@
-# CPA Books addons for Odoo 14
+# Odoo 14 CO Apps
 
-| Module | Description | License |
-| --- | --- | --- |
-| `cpabooks_chart_of_accounts` | Chart of Accounts Manager: account structure, code regeneration, ledger management and opening balances | LGPL-3 |
+Eight Odoo 14 addons with separate technical namespaces for this repository.
+See `module_names.json` for original names, new technical names and display names.
 
-See [module documentation](cpabooks_chart_of_accounts/README.md) for installation and usage, and [publishing instructions](PUBLISHING.md) for the Apps Store submission.
+Original source: `../odoo14_cpabooks_apps_store` (unchanged).
+The previously prepared Chart of Accounts implementation is retained under
+`co_chart_of_accounts`; its previous directory is backed up outside this repository
+at `../.co_apps_store_backups/cpabooks_chart_of_accounts_before_rename`.
 
-This repository is an addons root: keep the module directory directly below the repository root. Standard Odoo dependencies are sufficient for the core module.
+License: LGPL-3. Support: info@cpabooks.org.
+See PUBLISHING.md for dependencies, validation and submission instructions.

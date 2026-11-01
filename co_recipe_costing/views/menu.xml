@@ -1,0 +1,21 @@
+<odoo>
+<menuitem id="menu_recipe_root" name="Recipe Book" sequence="35" web_icon="co_recipe_costing,static/description/icon.png" groups="-co_recipe_costing.group_recipe_user"/>
+<menuitem id="menu_dashboard" parent="menu_recipe_root" name="Dashboard" action="action_recipe_status_dashboard" sequence="1"/>
+<menuitem id="menu_book" parent="menu_recipe_root" name="Menu Book" action="action_recipe" sequence="10"/>
+<menuitem id="menu_sample" parent="menu_recipe_root" name="Sample Recipes" action="action_recipe_demo" sequence="11"/>
+<menuitem id="menu_prep" parent="menu_recipe_root" name="Prep &amp; Sub-Recipes" action="action_prep" sequence="20"/>
+<menuitem id="menu_sample_prep" parent="menu_recipe_root" name="Sample Prep" action="action_prep_demo" sequence="21"/>
+<menuitem id="menu_config" parent="menu_recipe_root" name="Configuration" sequence="60"/>
+<record id="menu_config" model="ir.ui.menu"><field name="action" eval="False"/></record>
+<menuitem id="menu_config_load" parent="menu_config" name="Load Demo Data" action="action_menu_load_demo" sequence="1"/>
+<menuitem id="menu_config_clear" parent="menu_config" name="Clear Demo Data" action="action_menu_clear_demo" sequence="2"/>
+<menuitem id="menu_clone_demo" parent="menu_recipe_root" name="Clone from Demo" action="action_recipe_clone_wizard" sequence="50"/>
+<menuitem id="menu_key_results" parent="menu_recipe_root" name="Key Results" action="action_key_results" sequence="29"/>
+<menuitem id="menu_analysis" parent="menu_recipe_root" name="Consumption Analysis" action="action_consumption" sequence="30"/>
+<menuitem id="menu_close_start" parent="menu_recipe_root" name="Start Daily Closing" action="action_closing_wizard" sequence="40"/>
+<menuitem id="menu_close" parent="menu_recipe_root" name="Closing Stock &amp; Variance" action="action_closing" sequence="41"/>
+<menuitem id="menu_daily_closing_stock" parent="menu_recipe_root" name="Daily Closing Stock" sequence="80"/>
+<record id="menu_daily_closing_stock" model="ir.ui.menu"><field name="action" eval="False"/></record>
+<menuitem id="menu_daily_reports" parent="menu_recipe_root" name="Daily Reports" sequence="90"/>
+<function model="cpabooks.recipe" name="_link_daily_report_menus"/>
+</odoo>

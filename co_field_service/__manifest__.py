@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Onsite Service Management',
+
+    'summary': "Complaint registration, site visit, quotation, work and invoice",
+    'description': """
+Field Service — register a complaint, visit the site, issue a quotation,
+do the work, invoice and close.
+    """,
+    'author': 'CPA Books',
+    'website': "https://www.cpabooks.co",
+    'support': 'info@cpabooks.org',
+    'license': 'LGPL-3',
+    'price': 198.00,
+    'currency': 'USD',
+    'sequence': -90,
+    'images': ['static/description/banner_store.jpg'],
+    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
+
+    # Categories can be used to filter modules in modules listing
+    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
+    # for the full list
+    'category': 'Services/Field Service',
+    'version': '14.0.1.0.3',
+
+    # any module necessary for this one to work correctly
+    'depends': [
+        'industry_fsm_report',
+        'cpabooks_project_issue_note',
+        'all_in_one_schedule_activity_management',
+        'project',
+        'sale_management',
+        'stock',
+        'purchase',
+        'account',
+        'mail',
+        'hr',
+        'hr_timesheet',
+    ],
+
+    # always loaded
+    'data': [
+        'security/fsm_groups.xml',
+        'security/industry_fsm_sale_security.xml',
+        'security/ir.model.access.csv',
+        'security/customer_part_access.xml',
+        'data/invoice_type_data.xml',
+        'data/project_project_data.xml',
+        'data/project_task_data.xml',
+        'views/report_project_task.xml',
+        'reports/worksheet_customer_report_templates.xml',
+        'views/complaint_detail_views.xml',
+        'views/project_project_views_inherit.xml',
+        'views/project_task_views.xml',
+        'views/crn_task_bifurcation_views.xml',
+        'views/fsm_task_form_statusbar_fix_views.xml',
+        'views/fsm_task_form_next_action_duplicate_fix.xml',
+        'views/fsm_action_navigation_views.xml',
+        'views/fsm_crn_form_shell_views.xml',
+        'views/fsm_workflow_ui_views.xml',
+        'views/fsm_workflow_stage_controls_views.xml',
+        'views/fsm_timesheet_employee_views.xml',
+        'views/fsm_crn_cost_views.xml',
+        'views/fsm_crn_create_views.xml',
+        'views/res_partner_views.xml',
+        'views/customer_parts_views.xml',
+        'views/issue_note_views.xml',
+        'views/stock_picking_delivery_views.xml',
+        'views/material_return_views.xml',
+        'views/timesheet_cost_views.xml',
+        'views/fsm_task_cancel_actions.xml',
+        'views/fsm_project_task.xml',
+        'views/fsm_crn_labels_views.xml',
+        'views/crn_service_assets.xml',
+        'views/crn_service_menus.xml',
+        'views/fsm_dashboard_views.xml',
+        'views/fsm_material_consumption_views.xml',
+        'views/fsm_store_views.xml',
+        'views/fsm_store_inventory_menus.xml',
+        'views/fsm_test_data_wizard_views.xml',
+        'wizard/fsm_stage0_close_wizard_views.xml',
+        'views/fsm_crn_ui_cleanup_views.xml',
+        'views/sale_order_views.xml',
+    ],
+    'pre_init_hook': 'pre_init_hook',
+    'post_init_hook': 'post_init_hook',
+    'qweb': [
+        'static/src/xml/crn_service_dashboard.xml',
+        'static/src/xml/crn_processing_cycle.xml',
+    ],
+    # only loaded in demonstration mode
+    'demo': [],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

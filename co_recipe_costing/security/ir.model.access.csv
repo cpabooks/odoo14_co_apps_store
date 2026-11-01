@@ -1,0 +1,18 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+recipe_user,recipe user,model_cpabooks_recipe,co_recipe_costing.group_recipe_user,1,0,0,0
+recipe_manager,recipe manager,model_cpabooks_recipe,co_recipe_costing.group_recipe_manager,1,1,1,1
+recipe_line_manager,line manager,model_cpabooks_recipe_line,co_recipe_costing.group_recipe_manager,1,1,1,1
+prep_manager,prep manager,model_cpabooks_prep_recipe,co_recipe_costing.group_recipe_manager,1,1,1,1
+prep_line_manager,prep line manager,model_cpabooks_prep_recipe_line,co_recipe_costing.group_recipe_manager,1,1,1,1
+closing_user,closing user,model_cpabooks_recipe_closing,co_recipe_costing.group_recipe_user,1,1,1,0
+consumption_user,consumption user,model_cpabooks_recipe_consumption,co_recipe_costing.group_recipe_user,1,0,0,0
+wizard_user,wizard user,model_cpabooks_recipe_closing_wizard,co_recipe_costing.group_recipe_user,1,1,1,1
+recipe_internal,recipe internal,model_cpabooks_recipe,base.group_user,1,1,1,1
+recipe_line_internal,line internal,model_cpabooks_recipe_line,base.group_user,1,1,1,1
+prep_internal,prep internal,model_cpabooks_prep_recipe,base.group_user,1,1,1,1
+prep_line_internal,prep line internal,model_cpabooks_prep_recipe_line,base.group_user,1,1,1,1
+closing_internal,closing internal,model_cpabooks_recipe_closing,base.group_user,1,1,1,1
+consumption_internal,consumption internal,model_cpabooks_recipe_consumption,base.group_user,1,1,1,1
+wizard_internal,wizard internal,model_cpabooks_recipe_closing_wizard,base.group_user,1,1,1,1
+demo_wizard_internal,demo wizard internal,model_cpabooks_recipe_demo_wizard,base.group_user,1,1,1,1
+clone_wizard_internal,clone wizard internal,model_cpabooks_recipe_clone_wizard,base.group_user,1,1,1,1

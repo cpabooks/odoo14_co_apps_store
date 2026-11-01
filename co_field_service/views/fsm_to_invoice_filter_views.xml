@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Replace standard sale-order invoice_status filter with CRN workflow + 100% progress. -->
+        <!-- Final override: ensure a single To Invoice filter with 100% progress only. -->
+        <record id="project_task_view_search_fsm_to_invoice_filter_final" model="ir.ui.view">
+            <field name="name">project.task.search.fsm.to.invoice.filter.final</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="priority" eval="200"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='to_invoice']" position="replace">
+                    <filter string="To Invoice"
+                            name="to_invoice"
+                            domain="[('fsm_stage_progress', '&gt;=', 100)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Remove duplicate To Invoice filter added on base FSM search inherit. -->
+        <record id="project_task_view_search_fsm_remove_duplicate_to_invoice" model="ir.ui.view">
+            <field name="name">project.task.search.fsm.remove.duplicate.to.invoice</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="co_field_service.project_task_view_search_fsm_inherit_admin"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='to_invoice']" position="replace"/>
+            </field>
+        </record>
+
+        <record id="action_fsm_project_task_to_invoice" model="ir.actions.act_window">
+            <field name="domain">[('is_fsm', '=', True), ('fsm_stage_progress', '&gt;=', 100)]</field>
+        </record>
+
+        </data>
+</odoo>

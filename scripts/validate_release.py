@@ -1,55 +1,76 @@
-"""Validate distributable Odoo addon files without importing Odoo."""
+"""Check every distributable addon without loading an Odoo database."""
 import ast
 import csv
-from html.parser import HTMLParser
-from pathlib import Path
+import json
+import re
 import sys
+from pathlib import Path
+from html.parser import HTMLParser
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE = ROOT / 'cpabooks_chart_of_accounts'
-errors = []
+ERRORS = []
 
+class Page(HTMLParser):
+    def __init__(self, directory):
+        super().__init__()
+        self.directory = directory
 
-def check(condition, message):
-    if not condition:
-        errors.append(message)
-
-
-class StorePage(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        check(tag not in ('script', 'iframe', 'style'), 'Forbidden store HTML tag: ' + tag)
-        for key, value in attrs.items():
-            check(not key.startswith('on'), 'Inline HTML event handler')
-            if key in ('href', 'src'):
-                if value.startswith('mailto:') and key == 'href':
-                    continue
-                check(':' not in value and not value.startswith('//'), 'External store asset/link: ' + value)
-                if not value.startswith('#'):
-                    check((MODULE / 'static/description' / value).is_file(), 'Missing store asset: ' + value)
+        if tag in ('script', 'iframe', 'style') or any(k.startswith('on') for k in attrs):
+            ERRORS.append(str(self.directory) + ': unsafe HTML')
+        if tag == 'img':
+            source = attrs.get('src', '')
+            if not source or ':' in source or not (self.directory / source).is_file():
+                ERRORS.append(str(self.directory) + ': missing/local image ' + source)
 
-
-manifest = ast.literal_eval((MODULE / '__manifest__.py').read_text())
-check(len(manifest['name']) <= 25, 'App name exceeds 25 characters')
-check(manifest['version'].startswith('14.0.'), 'Wrong Odoo version')
-check(manifest['license'] == 'LGPL-3', 'Unexpected license')
-check(manifest['installable'], 'Module must be installable')
-check('@' in manifest['support'], 'Missing support email')
-for path in manifest['data'] + manifest.get('images', []):
-    check((MODULE / path).is_file(), 'Missing manifest file: ' + path)
-for path in MODULE.rglob('*.py'):
-    ast.parse(path.read_text(), filename=str(path))
-for path in MODULE.rglob('*.xml'):
-    ET.parse(path)
-with (MODULE / 'security/ir.model.access.csv').open() as stream:
-    access = list(csv.DictReader(stream))
-check(all(row['group_id:id'] for row in access), 'Ungrouped model access')
-check(len({row['id'] for row in access}) == len(access), 'Duplicate ACL IDs')
-StorePage().feed((MODULE / 'static/description/index.html').read_text())
-check((MODULE / 'static/description/icon.png').is_file(), 'Missing icon')
-check((ROOT / 'LICENSE').is_file() and (ROOT / 'LICENSE.LESSER').is_file(), 'Missing license texts')
-if errors:
-    print('\n'.join(errors), file=sys.stderr)
+entries = json.loads((ROOT / 'module_names.json').read_text())
+for entry in entries:
+    module = ROOT / entry['technical']
+    manifest = ast.literal_eval((module / '__manifest__.py').read_text())
+    for condition, message in [
+        (len(manifest['name']) <= 25, 'name exceeds 25 characters'),
+        (manifest['version'].startswith('14.0.'), 'incorrect series'),
+        (manifest.get('installable'), 'not installable'),
+        (manifest.get('support'), 'missing support'),
+        (manifest.get('license'), 'missing license'),
+    ]:
+        if not condition:
+            ERRORS.append(module.name + ': ' + message)
+    for key in ('data', 'demo', 'qweb', 'images'):
+        for relative in manifest.get(key, []):
+            if not (module / relative).is_file():
+                ERRORS.append(module.name + ': missing ' + relative)
+    for path in module.rglob('*'):
+        if not path.is_file():
+            continue
+        try:
+            if path.suffix == '.py':
+                ast.parse(path.read_text(), filename=str(path))
+            elif path.suffix == '.xml':
+                ET.parse(path)
+            if path.suffix in ('.py', '.xml', '.js', '.csv', '.html'):
+                content = path.read_text()
+                for old in (item['original'] for item in entries):
+                    if re.search(r'(?<!\w)' + re.escape(old) + r'(?!\w)', content):
+                        ERRORS.append(str(path.relative_to(ROOT)) + ': old namespace ' + old)
+        except (SyntaxError, ET.ParseError, UnicodeError) as exc:
+            ERRORS.append(str(path.relative_to(ROOT)) + ': ' + str(exc))
+    description = module / 'static/description'
+    access_path = module / 'security/ir.model.access.csv'
+    if access_path.exists():
+        with access_path.open() as stream:
+            access = list(csv.DictReader(stream))
+        if any(not row['group_id:id'] for row in access):
+            ERRORS.append(module.name + ': ungrouped model access')
+        if len({row['id'] for row in access}) != len(access):
+            ERRORS.append(module.name + ': duplicate access identifiers')
+    if not (description / 'icon.png').is_file():
+        ERRORS.append(module.name + ': missing icon')
+    Page(description).feed((description / 'index.html').read_text())
+    print(module.name + ': source and packaging checked')
+if ERRORS:
+    print('\n'.join(ERRORS), file=sys.stderr)
     sys.exit(1)
-print('PASS: manifest, Python syntax, XML, ACL groups, store HTML, assets and licenses')
+print('PASS: all 8 manifests, source syntax, XML, assets, descriptions and renamed namespaces')

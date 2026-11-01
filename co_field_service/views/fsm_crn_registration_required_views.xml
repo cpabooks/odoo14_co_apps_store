@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Customer (4) and Complaint Type (9) are mandatory on CRN registration. -->
+        </data>
+</odoo>

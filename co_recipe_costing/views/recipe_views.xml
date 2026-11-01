@@ -1,0 +1,43 @@
+<odoo>
+<record id="recipe_tree" model="ir.ui.view">
+    <field name="name">recipe.tree</field>
+    <field name="model">cpabooks.recipe</field>
+    <field name="arch" type="xml">
+        <tree class="o_recipe_book_list" decoration-success="potential_cost_pct &lt;= 30" decoration-warning="potential_cost_pct &gt; 30">
+            <field name="is_demo" invisible="1"/>
+            <field name="code" string="Code"/>
+            <field name="name" string="Name"/>
+            <field name="category" string="Category"/>
+            <field name="sale_product_id" string="Sales Item"/>
+            <field name="menu_price" string="Menu Price"/>
+            <field name="budget_cost" string="Budget Cost"/>
+            <field name="budget_cost_pct" string="Budget Food Cost %"/>
+            <field name="standard_cost" string="Actual Food Cost"/>
+            <field name="selling_price" string="Selling Price"/>
+            <field name="potential_cost_pct" string="Potential Food Cost %"/>
+            <field name="margin" string="Margin"/>
+            <field name="sample_sold_qty" string="Sample Sold Qty"/>
+        </tree>
+    </field>
+</record>
+<record id="recipe_search" model="ir.ui.view"><field name="name">recipe.search</field><field name="model">cpabooks.recipe</field><field name="arch" type="xml"><search><field name="name"/><field name="code"/><field name="sale_product_id"/><filter name="filter_actual" string="Actual" domain="[('is_demo','=',False)]"/><filter name="filter_demo" string="Sample" domain="[('is_demo','=',True)]"/></search></field></record>
+<record id="recipe_form" model="ir.ui.view"><field name="name">recipe.form</field><field name="model">cpabooks.recipe</field><field name="arch" type="xml"><form string="Recipe Book"><header><button name="action_clone_to_actual" type="object" string="Clone to Actual" class="oe_highlight" attrs="{'invisible': [('is_demo','=',False)]}"/><button name="action_open_clone_wizard" type="object" string="Clone from Demo" attrs="{'invisible': [('is_demo','=',True)]}"/><button name="action_sales" type="object" string="Sales of this Menu"/></header><sheet><field name="is_demo" invisible="1"/><div class="oe_title"><label for="name"/><h1><field name="name"/></h1><h2><field name="sale_product_id"/></h2><div attrs="{'invisible': [('is_demo','=',False)]}">Sample recipe. Clone to Actual before you change the live recipe.</div></div><group><group><field name="code"/><field name="company_id"/><field name="branch"/><field name="category"/><field name="cloned_from_id"/></group><group><field name="image_1920" widget="image" class="oe_avatar"/><field name="menu_price"/><field name="budget_cost"/><field name="budget_cost_pct"/><field name="budget_margin"/><field name="selling_price"/><field name="standard_cost"/><field name="potential_cost_pct"/><field name="margin"/><field name="sample_sold_qty"/><field name="sample_food_cost_total"/></group></group><notebook><page string="Ingredients"><field name="line_ids"><tree editable="bottom"><field name="sequence" widget="handle"/><field name="product_id"/><field name="budget_qty"/><field name="budget_uom"/><field name="budget_unit_cost"/><field name="budget_line_cost"/><field name="qty"/><field name="uom_id"/><field name="unit_cost"/><field name="line_cost"/><field name="link_note"/></tree></field></page><page string="Notes"><field name="notes"/></page></notebook></sheet></form></field></record>
+<record id="action_recipe" model="ir.actions.act_window"><field name="name">Menu Book</field><field name="res_model">cpabooks.recipe</field><field name="view_mode">kanban,tree,form</field><field name="domain">[('is_demo','=',False)]</field></record>
+<record id="action_recipe_demo" model="ir.actions.act_window"><field name="name">Sample Recipes</field><field name="res_model">cpabooks.recipe</field><field name="view_mode">kanban,tree,form</field><field name="domain">[('is_demo','=',True)]</field></record>
+<record id="prep_tree" model="ir.ui.view"><field name="name">prep.tree</field><field name="model">cpabooks.prep.recipe</field><field name="arch" type="xml"><tree><field name="code"/><field name="name"/><field name="product_id"/><field name="batch_yield"/><field name="uom_id"/><field name="batch_cost"/><field name="unit_cost"/></tree></field></record>
+<record id="prep_form" model="ir.ui.view"><field name="name">prep.form</field><field name="model">cpabooks.prep.recipe</field><field name="arch" type="xml"><form><header><button name="action_clone_to_actual" type="object" string="Clone to Actual" class="oe_highlight" attrs="{'invisible': [('is_demo','=',False)]}"/></header><sheet><field name="is_demo" invisible="1"/><group><field name="code"/><field name="name"/><field name="product_id"/><field name="batch_yield"/><field name="uom_id"/><field name="batch_cost"/><field name="unit_cost"/></group><field name="line_ids"><tree editable="bottom"><field name="product_id"/><field name="qty"/><field name="uom_id"/><field name="unit_cost"/><field name="line_cost"/></tree></field></sheet></form></field></record>
+<record id="action_prep" model="ir.actions.act_window"><field name="name">Prep &amp; Sub-Recipes</field><field name="res_model">cpabooks.prep.recipe</field><field name="view_mode">tree,form</field><field name="domain">[('is_demo','=',False)]</field></record>
+<record id="action_prep_demo" model="ir.actions.act_window"><field name="name">Sample Prep</field><field name="res_model">cpabooks.prep.recipe</field><field name="view_mode">tree,form</field><field name="domain">[('is_demo','=',True)]</field></record>
+<function model="cpabooks.recipe.line" name="_recompute_book_costs"/>
+<function model="cpabooks.recipe" name="_apply_menu_photos"/>
+<template id="assets_backend" name="recipe.book.list.assets" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <link rel="stylesheet" type="text/css" href="/co_recipe_costing/static/src/css/recipe_list.css"/>
+        <link rel="stylesheet" type="text/css" href="/co_recipe_costing/static/src/css/dashboard.css"/>
+        <link rel="stylesheet" type="text/css" href="/co_recipe_costing/static/src/css/key_results.css"/>
+        <script type="text/javascript" src="/co_recipe_costing/static/src/js/nav_toggle.js"/>
+        <script type="text/javascript" src="/co_recipe_costing/static/src/js/dashboard.js"/>
+        <script type="text/javascript" src="/co_recipe_costing/static/src/js/key_results.js"/>
+    </xpath>
+</template>
+</odoo>
