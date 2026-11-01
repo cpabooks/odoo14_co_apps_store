@@ -69,5 +69,13 @@ an undeclared private Professional Templates style model. The old report-style
 selector is removed from this store build. Contract order creation and HTML
 printing were tested. Account group cleanup now guards nested legacy-group
 reassignment, fixing recursion during account creation when all apps coexist.
-Contact-page URLs were removed from `live_test_url` metadata because those URLs
-are not live application demos. Support/contact links and prices are unchanged.
+All eight manifests retain the original repository's `live_test_url`:
+`https://cpabooks.org/contactus?debug=1`. This restores the metadata for the
+Apps Store's **Live Preview** button and opens the existing contact/demo-request
+page. It is not a hosted interactive Odoo demo. Prices are unchanged.
+
+The Download/Buy and Deploy on Odoo.sh buttons are rendered by Odoo Apps,
+not by `static/description/index.html`. Their availability and labels depend on
+the published listing, price, purchase status and Odoo's platform behavior.
+After publishing the updated `14.0` branch, rescan the repository to refresh
+the listing metadata. Remote button visibility has not been verified here.

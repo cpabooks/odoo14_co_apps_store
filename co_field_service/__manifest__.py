@@ -13,6 +13,7 @@ do the work, invoice and close.
     'license': 'LGPL-3',
     'price': 198.00,
     'currency': 'USD',
+    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'sequence': -90,
     'images': ['static/description/banner_store.jpg'],
 
