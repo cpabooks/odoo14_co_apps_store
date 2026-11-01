@@ -14,7 +14,7 @@ entry, correspondent Dr/Cr ledgers and product COA codes.
     'website': 'https://www.cpabooks.co',
     'support': 'info@cpabooks.org',
     'category': 'Accounting/Accounting',
-    'version': '14.0.1.0.0',
+    'version': '14.0.1.0.1',
     'license': 'LGPL-3',
     'price': 39.00,
     'currency': 'USD',

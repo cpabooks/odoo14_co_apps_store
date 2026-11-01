@@ -12,5 +12,12 @@
             <field name="binding_type">report</field>
         </record>
 
+        <record id="task_custom_report" model="ir.actions.report">
+            <field name="name">TMC Internal</field>
+            <field name="model">project.task</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">co_field_service.worksheet_custom</field>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+        </record>
     </data>
 </odoo>

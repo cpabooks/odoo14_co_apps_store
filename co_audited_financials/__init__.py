@@ -10,18 +10,6 @@ _AFG_ORPHAN_REL_TABLES = (
 )
 
 
-def _mark_project_dashboard_odoo_for_upgrade(cr):
-    """Ensure multico PL/BS report xmlids exist before AFG menus load."""
-    cr.execute(
-        """
-        UPDATE ir_module_module
-        SET state = 'to upgrade'
-        WHERE name = 'project_dashboard_odoo'
-          AND state = 'installed'
-        """
-    )
-
-
 def _ensure_afg_account_ctf_column(cr):
     cr.execute(
         """
@@ -45,7 +33,6 @@ def _ensure_afg_account_ctf_column(cr):
 def pre_init_hook(cr):
     """Drop stale M2M tables so reinstall can recreate FK constraints cleanly."""
     _ensure_afg_account_ctf_column(cr)
-    _mark_project_dashboard_odoo_for_upgrade(cr)
     _ensure_afg_version_print_columns(cr)
     _ensure_afg_line_merged_leaf_column(cr)
     cr.execute(
@@ -137,18 +124,6 @@ def post_init_hook(cr, registry):
 
     if "audited.financial.menu.cleanup" in env:
         cleanup = env["audited.financial.menu.cleanup"]
-        if not env.ref(
-            "project_dashboard_odoo.account_financial_html_report_action_bs",
-            raise_if_not_found=False,
-        ):
-            mod = env["ir.module.module"].search(
-                [("name", "=", "project_dashboard_odoo"), ("state", "=", "installed")],
-                limit=1,
-            )
-            if mod:
-                mod.write({"state": "to upgrade"})
-                _logger.warning(
-                    "co_audited_financials: project_dashboard_odoo marked to upgrade; "
-                    "upgrade it then upgrade co_audited_financials again for multico menus."
-                )
         cleanup.refresh_afg_menus()
+
+from . import report

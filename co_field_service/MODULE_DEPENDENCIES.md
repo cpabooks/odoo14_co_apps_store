@@ -1,39 +1,16 @@
-# Cpabooks Field Serviece Extend
+# Field Service dependencies
 
-Technical name: `co_field_service`
+The authoritative list is `__manifest__.py`. This store build depends only on
+standard Odoo 14 Community addons: Project, Sales, Inventory, Purchase,
+Accounting, Mail, Employees, Timesheets and Sales Timesheets.
 
-> Auto-generated reference. Update `depends` in `__manifest__.py`, then run:
-> `python tools/cpa_module_dependencies.py co_field_service`
+Material requests, material issue/return views, stock picking extensions and
+internal/customer job completion reports are included in `co_field_service`.
+The private `cpabooks_project_issue_note` addon, customized activity addon and
+Enterprise worksheet addon are no longer required.
 
----
+The legacy activity-page hiding view was removed because its target page
+belongs to a separate activity extension. Existing optional approval hooks
+remain conditional on that integration being present.
 
-## Dependencies on this module
-
-Modules that declare **`co_field_service`** in their `depends`. Uninstalling this module may uninstall them (Odoo cascade).
-
-| Sr | Technical name |
-|----|----------------|
-| 1 | `cpabooks_approval` |
-
-## Depends on other modules
-
-Modules listed in **`depends`** of `__manifest__.py` (required to install this module).
-
-| Sr | Technical name |
-|----|----------------|
-| 1 | `base` |
-| 2 | `all_in_one_schedule_activity_management` |
-| 3 | `cpabooks_project_extend` |
-| 4 | `cpabooks_project_issue_note` |
-| 5 | `cpabooks_sequences` |
-| 6 | `hr_timesheet` |
-| 7 | `industry_fsm` |
-| 8 | `industry_fsm_report` |
-| 9 | `industry_fsm_sale` |
-| 10 | `project_forecast` |
-| 11 | `sale_timesheet` |
-| 12 | `timesheet_grid` |
-| 13 | `bi_subtask` |
-| 14 | `professional_templates_v1` |
-| 15 | `stock` |
-| 16 | `purchase` |
+Do not install the old and renamed addons together: they share model names.

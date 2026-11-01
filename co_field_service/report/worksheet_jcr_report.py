@@ -4,7 +4,9 @@ from odoo import api, models
 
 
 class TaskCustomReport(models.AbstractModel):
-    _inherit = 'report.industry_fsm_report.worksheet_custom'
+    _name = 'report.co_field_service.worksheet_custom'
+    _inherit = 'report.co_field_service.worksheet_custom_customer'
+    _description = 'Internal Job Completion Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
