@@ -4,6 +4,10 @@
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/css" href="/co_audited_financials/static/src/css/afg_map_list.css"/>
             <script type="text/javascript" src="/co_audited_financials/static/src/js/afg_map_list.js"/>
+            <link rel="stylesheet" href="/co_audited_financials/static/src/css/audited_financials_dashboard.css"/>
+            <link rel="stylesheet" href="/co_audited_financials/static/src/css/audited_financial_app_shell.css"/>
+            <script src="/co_audited_financials/static/src/js/audited_financials_dashboard.js"/>
+            <script src="/co_audited_financials/static/src/js/audited_financial_app_shell.js"/>
         </xpath>
     </template>
 </odoo>

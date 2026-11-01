@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <template id="inherit_worksheet_custom_page_jcr" inherit_id="industry_fsm_report.worksheet_custom_page">
-            <xpath expr="//div[contains(@class, 'page')]" position="replace">
+        <template id="worksheet_custom_page">
+
                 <div class="page" style="font-size: 14px; color: black; font-family: Arial, sans-serif;">
                     <t t-set="copy_label" t-value="report_copy_label or 'TMC Internal'"/>
                     <t t-set="is_customer_copy" t-value="'Customer' in (copy_label or '')"/>
@@ -275,12 +275,21 @@
                     </div>
 
                 </div>
-            </xpath>
+
         </template>
 
+        <template id="worksheet_custom">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <t t-call="co_field_service.worksheet_custom_page"/>
+                    </t>
+                </t>
+            </t>
+        </template>
         <template id="worksheet_custom_customer">
             <t t-set="report_copy_label" t-value="'TMC Customer'"/>
-            <t t-call="industry_fsm_report.worksheet_custom"/>
+            <t t-call="co_field_service.worksheet_custom"/>
         </template>
     </data>
 </odoo>

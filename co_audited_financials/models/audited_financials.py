@@ -4110,11 +4110,11 @@ class AuditedFinancialVersion(models.Model):
         mf = float(flags.get("margin_footer") or 10)
         try:
             report = self.env.ref(
-                "project_dashboard_odoo.action_report_afg_audit_pdf",
+                "co_audited_financials.action_report_afg_audit_pdf",
                 raise_if_not_found=False,
             )
             pf = self.env.ref(
-                "project_dashboard_odoo.paperformat_afg_audit",
+                "co_audited_financials.paperformat_afg_audit",
                 raise_if_not_found=False,
             )
             if not report or not pf:
@@ -11021,7 +11021,7 @@ class AuditedFinancialVersion(models.Model):
                 "report_column_company_ids": [(6, 0, cids)],
             })
         report = self.env.ref(
-            "project_dashboard_odoo.action_report_afg_simple_fs_pdf",
+            "co_audited_financials.action_report_afg_simple_fs_pdf",
             raise_if_not_found=False,
         )
         if not report:
@@ -11050,7 +11050,7 @@ class AuditedFinancialVersion(models.Model):
             })
         self._afg_persist_print_options(pack)
         self._afg_sync_paperformat_margins()
-        report = self.env.ref("project_dashboard_odoo.action_report_afg_audit_pdf")
+        report = self.env.ref("co_audited_financials.action_report_afg_audit_pdf")
         report_name = report.report_name or report.report_file
         return {
             "type": "ir.actions.act_url",
@@ -11076,7 +11076,7 @@ class AuditedFinancialVersion(models.Model):
         dpi = max(50, min(160, dpi))
         self.env["ir.config_parameter"].sudo().set_param("cpabooks_afg.print_dpi", str(dpi))
         pf = self.env.ref(
-            "project_dashboard_odoo.paperformat_afg_audit",
+            "co_audited_financials.paperformat_afg_audit",
             raise_if_not_found=False,
         )
         if pf:

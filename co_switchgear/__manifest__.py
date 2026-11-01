@@ -71,7 +71,6 @@ purchase requisition, quality check, stock, invoice, and payment.
         'static/src/xml/switchgear_dashboard.xml',
     ],
     'images': ['static/description/banner_store.jpg'],
-    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'installable': True,
     'application': True,
     'auto_install': False,

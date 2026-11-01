@@ -32,8 +32,8 @@ var NAV_ITEMS = [
         {key: 'approval_rejected', label: 'Rejected CRNs', xmlid: 'cpabooks_approval.action_crn_followup_rejected'},
     ]},
     {section: 'Store', sectionClass: 'o_crn_section_store', items: [
-        {key: 'stock_issue', label: 'Material Issue Note', xmlid: 'cpabooks_project_issue_note.issue_action'},
-        {key: 'stock_return', label: 'Material Return Note', xmlid: 'cpabooks_project_issue_note.return_issue_action'},
+        {key: 'stock_issue', label: 'Material Issue Note', xmlid: 'co_field_service.issue_action'},
+        {key: 'stock_return', label: 'Material Return Note', xmlid: 'co_field_service.return_issue_action'},
         {key: 'mat_request', label: 'Material Request Pending', xmlid: 'co_field_service.action_fsm_store_material_request_pending'},
         {key: 'mat_issued', label: 'Material Issued', xmlid: 'co_field_service.action_fsm_store_material_issued'},
         {key: 'do_pending', label: 'DO Pending', xmlid: 'co_field_service.action_fsm_store_do_pending'},

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from . import material_issue_base
 from . import project_project
 from . import hr_employee
 from . import account_move

@@ -11,5 +11,9 @@ jobs:
         with:
           python-version: '3.8'
       - run: python scripts/validate_release.py
-      - run: node --check co_chart_of_accounts/static/src/js/account_form_pager.js
+      - name: Check all addon JavaScript
+        run: |
+          while IFS= read -r -d '' file; do
+            node --check "$file" || exit 1
+          done < <(find co_* -type f -name '*.js' -print0)
       - run: git diff --check

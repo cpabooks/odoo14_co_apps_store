@@ -94,6 +94,10 @@ class AuditedFinancialMenuCleanup(models.AbstractModel):
         for spec in _AFG_MULTICO_ACTION_SPECS:
             full_xmlid = 'co_audited_financials.%s' % spec['xmlid']
             action = self.env.ref(full_xmlid, raise_if_not_found=False)
+            # The store build supplies native AFG actions. A separately installed
+            # legacy dashboard may still provide the optional multico reports.
+            if action and action.tag == 'audited_financials_dashboard':
+                continue
             source = self._resolve_multico_client_action(
                 spec['source_xmlids'],
                 spec['report_xmlid'],

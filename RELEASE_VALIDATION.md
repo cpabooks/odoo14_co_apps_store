@@ -1,45 +1,47 @@
-# Release validation
+# Release validation — 2026-11-02
 
-Prepared for Odoo 14 using Python 3.8.20 and an isolated PostgreSQL 16 instance.
-No production database or original source addon was changed.
+Environment: Odoo 14 Community, Python 3.8.20, isolated PostgreSQL 16 on port
+55439, disposable database `co_store_release`. Addons paths contained only
+standard Community addons and this repository. No Enterprise or private
+`cpabooks-custom` addons were loaded. No production database was changed.
 
 ## Passed
 
-- All 8 addons: manifest, data/demo/QWeb paths, local description images, icon,
-  Python syntax, XML syntax and technical namespace packaging checks.
-- JavaScript syntax checks and Git whitespace check.
-- The following 6 addons installed together on a disposable database, then
-  upgraded successfully with standard Odoo Community addons:
-  `co_chart_of_accounts`, `co_cafm`, `co_fire_safety`, `co_recipe_costing`,
-  `co_document_sequences`, `co_switchgear`.
-- ORM smoke check: all 6 installed namespaces have external identifiers;
-  automatic account numbering and duplicate numbering work; the renamed COA
-  setup action resolves; public users cannot write CAFM units or contracts.
-  Smoke writes were rolled back.
+- All eight addon manifests, dependency allowlist, declared files, Python/XML
+  syntax, local description images/icons, ACL packaging and old namespaces.
+- Local inherited views and report actions resolve to packaged XML definitions.
+- All addon JavaScript syntax and Git whitespace checks.
+- All eight addons installed in the disposable database and upgraded together.
+  Installation failures found during preparation were fixed and rerun.
+- `scripts/smoke_release.py` passed with all writes rolled back:
+  - All eight installed states and external identifier namespaces.
+  - Automatic account numbering and duplication, including legacy account
+    groups that previously triggered recursive cleanup.
+  - Restored FSM forms and quotation defaults.
+  - Material request creation, a completed two-unit stock issue and return
+    picking defaults loaded from that issue.
+  - Internal/customer job completion report HTML rendering.
+  - CAFM contract/order creation and contract report HTML rendering using
+    standard Odoo company layout.
+  - Financial Audit dashboard data, full-report and quick-print HTML rendering.
+  - Public-user write denial for CAFM records, material requests and invoice types.
 
-## Remaining blockers
+## Scope and limitations
 
-- `co_audited_financials`: requires `project_dashboard_odoo`, absent from the
-  supplied Apps Store source. Installation and reporting are unverified.
-- `co_field_service`: initial installation exposed undeclared dependencies on
-  `industry_fsm_report`, `cpabooks_project_issue_note`, and
-  `all_in_one_schedule_activity_management`. These are now declared, and the
-  customer report template is now included. Installation with these
-  dependencies remains unverified. Enterprise is required for the report.
+The addons were installed together, not each in its own isolated database.
+These checks cover server-side behavior and report HTML, not browser interaction
+or actual wkhtmltopdf output. Existing screenshots, every workflow,
+multi-company isolation and every permission combination were not exhaustively
+reviewed. Non-blocking duplicate-label/model-description/tracking warnings remain.
 
-The 6-addon test checks installation together, not each addon in a separate
-database. Interactive workflows, report rendering, multi-company isolation,
-all permission combinations and image accuracy were not exhaustively tested.
-Existing non-blocking duplicate field-label/model-description warnings remain.
+The missing private dependency shown in the screenshot is resolved in source.
+No authenticated Odoo Apps scan was run; remote name ownership and final store
+acceptance remain subject to Odoo's scanner/review. No commit or push was made.
+The checkout is on `main`; publish the reviewed changes to `14.0`, the branch
+configured in the dashboard. See PUBLISHING.md.
 
-Reproduce packaging checks with your Odoo Python interpreter:
+## Reproduce
 
-```sh
-/path/to/odoo-python scripts/validate_release.py
-```
-
+Run `scripts/validate_release.py` with the configured Odoo Python interpreter.
 Run `scripts/smoke_release.py` through `odoo-bin shell` on a disposable database
-with the 6 addons installed. See PUBLISHING.md for submission details.
-
-No commit, push or remote Odoo Apps scan was performed. Name ownership and
-final acceptance can only be confirmed by the Apps Store scanner/review.
+with all eight addons installed. The smoke script always rolls back its writes.

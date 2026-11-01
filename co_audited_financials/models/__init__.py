@@ -19,3 +19,5 @@ except Exception:  # pragma: no cover - keep core AFG loadable if report extras 
         "co_audited_financials: could not load audited_financial_report extension"
     )
 
+
+from . import ir_actions_report_afg

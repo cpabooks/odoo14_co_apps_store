@@ -3,7 +3,7 @@
 # After adding or replacing that file: Apps > Update Apps List (developer mode).
 {
     'name': 'Facilities and AMC',
-    'version': '14.0.1.1.168',
+    'version': '14.0.1.1.169',
     'author': 'CPA Books',
     'summary': 'Facility management, CAFM, AMC contracts, PPM and maintenance service calls',
     'sequence': -100,
@@ -15,7 +15,6 @@
     'price': 149.50,
     'currency': 'USD',
     'images': ['static/description/banner_store.jpg'],
-    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'depends': [
         'co_document_sequences',
         'maintenance',

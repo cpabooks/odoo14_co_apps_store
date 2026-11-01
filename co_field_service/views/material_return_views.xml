@@ -36,8 +36,8 @@
             <field name="view_mode">tree,form</field>
             <field name="view_ids"
                    eval="[(5, 0, 0),
-                          (0, 0, {'view_mode': 'tree', 'view_id': ref('cpabooks_project_issue_note.issue_tree')}),
-                          (0, 0, {'view_mode': 'form', 'view_id': ref('cpabooks_project_issue_note.issue_form')})]"/>
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('co_field_service.issue_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('co_field_service.issue_form')})]"/>
             <field name="domain">[('issue_project_task_id', '!=', False), ('is_material_return', '=', True)]</field>
             <field name="context">{'show_task_seq': True, 'show_crn_number': True}</field>
         </record>

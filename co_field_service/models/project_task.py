@@ -828,7 +828,7 @@ class ProjectTask(models.Model):
             vals.setdefault('fsm_creator_uid', self.env.uid)
             vals.pop('user_id', None)
             vals.pop('fsm_assigned_employee_id', None)
-            if not vals.get('planned_date_begin'):
+            if 'planned_date_begin' in self._fields and not vals.get('planned_date_begin'):
                 begin, end = self._fsm_default_planned_datetimes()
                 vals['planned_date_begin'] = begin
                 vals.setdefault('planned_date_end', end)
@@ -2636,6 +2636,23 @@ class ProjectTask(models.Model):
         if isinstance(view, dict):
             return view.get('viewID') or view.get('view_id') or False
         return False
+
+    def action_fsm_create_quotation(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Create Quotation'),
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'context': dict(
+                self.env.context,
+                default_task_id=self.id,
+                default_partner_id=self.partner_id.id,
+                default_company_id=self.company_id.id,
+                default_project_id=self.project_id.id,
+                default_analytic_account_id=self.project_id.analytic_account_id.id,
+            ),
+        }
 
     def action_fsm_view_all_related_quotations(self):
         self.ensure_one()

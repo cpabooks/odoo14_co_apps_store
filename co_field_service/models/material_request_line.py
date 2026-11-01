@@ -2,7 +2,13 @@ from odoo import api, fields, models
 
 
 class MaterialRequestLine(models.Model):
-    _inherit = 'material.request.line'
+    _name = 'material.request.line'
+    _description = 'Material Request Line'
+
+    task_id = fields.Many2one('project.task', ondelete='cascade')
+    product_id = fields.Many2one('product.product', required=True)
+    description = fields.Char()
+    quantity = fields.Float(default=1.0)
 
     task_crn_number = fields.Char(
         string='CRN No',

@@ -686,12 +686,13 @@ class CoaIfrsCoding(models.AbstractModel):
             or not (acc.group_id.code_prefix_start or '').strip().isdigit()
         )
         if legacy_accounts:
-            self.sync_ifrs_groups_for_accounts(legacy_accounts)
+            self.with_context(cpabooks_ifrs_reassigning_legacy=True).sync_ifrs_groups_for_accounts(legacy_accounts)
 
     @api.model
     def _cleanup_orphan_non_ifrs_groups(self, company_ids, keep_group_ids=None):
         """Remove empty legacy groups that are not 2-digit IFRS groups."""
-        self._reassign_accounts_on_legacy_groups(company_ids)
+        if not self.env.context.get('cpabooks_ifrs_reassigning_legacy'):
+            self._reassign_accounts_on_legacy_groups(company_ids)
         Group = self.env['account.group'].sudo()
         keep_group_ids = set(keep_group_ids or [])
         domain = [('company_id', 'in', company_ids)] if company_ids else []

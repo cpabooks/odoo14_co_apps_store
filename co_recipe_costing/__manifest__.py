@@ -19,7 +19,6 @@ Recipe Book for restaurants on Odoo 14.
     'price': 150.00,
     'currency': 'USD',
     'support': 'info@cpabooks.org',
-    'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'external_dependencies': {'python': ['openpyxl']},
     'depends': [
         'base',
