@@ -11,7 +11,7 @@ do the work, invoice and close.
     'website': "https://www.cpabooks.co",
     'support': 'info@cpabooks.org',
     'license': 'LGPL-3',
-    'price': 198.00,
+    'price': 0.00,
     'currency': 'USD',
     'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'sequence': -90,
