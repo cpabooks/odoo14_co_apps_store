@@ -14,7 +14,7 @@ Execute → Test → Handover → Invoice → Payment.
     'website': 'https://www.cpabooks.co',
     'support': 'info@cpabooks.org',
     'license': 'LGPL-3',
-    'price': 100.00,
+    'price': 0.00,
     'currency': 'USD',
     'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'images': ['static/description/banner_store.jpg'],
