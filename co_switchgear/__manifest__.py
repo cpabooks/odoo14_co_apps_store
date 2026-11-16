@@ -9,7 +9,7 @@ CRM, job estimate, quotation, design, BoM, manufacturing,
 purchase requisition, quality check, stock, invoice, and payment.
     """,
     'category': 'Manufacturing',
-    'version': '14.0.1.0.3',
+    'version': '14.0.1.0.4',
     'author': 'CPA Books',
     'website': 'https://www.cpabooks.co',
     'support': 'info@cpabooks.org',
@@ -71,7 +71,7 @@ purchase requisition, quality check, stock, invoice, and payment.
     'qweb': [
         'static/src/xml/switchgear_dashboard.xml',
     ],
-    'images': ['static/description/banner_store.jpg'],
+    'images': ['static/description/switchgear_banner_20261116.jpg'],
     'installable': True,
     'application': True,
     'auto_install': False,
