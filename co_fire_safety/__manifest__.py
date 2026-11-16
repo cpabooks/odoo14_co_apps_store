@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Fire Safety Operations',
-    'version': '14.0.1.0.24',
+    'version': '14.0.1.0.25',
     'author': 'CPA Books',
     'summary': 'Fire alarm and fire fighting jobs from inspection and quotation to invoice',
     'sequence': -95,
@@ -17,7 +17,7 @@ Execute → Test → Handover → Invoice → Payment.
     'price': 0.00,
     'currency': 'USD',
     'live_test_url': 'https://cpabooks.org/contactus?debug=1',
-    'images': ['static/description/banner_store.jpg'],
+    'images': ['static/description/fire_safety_banner_20261116.jpg'],
     'depends': [
         'crm',
         'sale_management',

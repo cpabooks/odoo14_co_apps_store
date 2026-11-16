@@ -14,13 +14,13 @@ entry, correspondent Dr/Cr ledgers and product COA codes.
     'website': 'https://www.cpabooks.co',
     'support': 'info@cpabooks.org',
     'category': 'Accounting/Accounting',
-    'version': '14.0.1.0.1',
+    'version': '14.0.1.0.2',
     'license': 'LGPL-3',
     'price': 0.00,
     'currency': 'USD',
     'live_test_url': 'https://cpabooks.org/contactus?debug=1',
     'images': [
-        'static/description/banner_store.jpg',
+        'static/description/chart_of_accounts_banner_20261116.jpg',
     ],
     'depends': [
         'base',
